@@ -66,21 +66,38 @@ jobs:
             ${{ secrets.DOCKERHUB_USERNAME }}/dev-system-repository:latest
             ${{ secrets.DOCKERHUB_USERNAME }}/dev-system-repository:${{ steps.version.outputs.version }}
 
-  # deploy:
-  #   runs-on: ubuntu-latest
-  #   needs: build-and-push
-  #   name: SSH & Deploy to VPS
+  deploy:
+    runs-on: ubuntu-latest
+    needs: build-and-push
+    name: SSH & Deploy to VPS
 
-  #   steps:
-  #     - name: Checkout Code
-  #       uses: actions/checkout@v2
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v2
 
-  #     - name: Deploy project over SSH
-  #       uses: appleboy/ssh-action@v1
-  #       with:
-  #         host: ${{ secrets.SSH_HOST }}
-  #         username: ${{ secrets.SSH_USERNAME }}
-  #         password: ${{ secrets.SSH_PASSWORD }}
-  #         port: ${{ secrets.SSH_PORT }}
-  #         script: |
-  #           docker pull
+      - name: Deploy project over SSH
+        uses: appleboy/ssh-action@v1
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USERNAME }}
+          password: ${{ secrets.SSH_PASSWORD }}
+          port: ${{ secrets.SSH_PORT }}
+          script: |
+            TAG=${{ steps.build-and-push.outputs.version }}
+            IMAGE=${{ secrets.DOCKERHUB_USERNAME }}/dev-system-repository:$TAG
+
+            echo "Pulling image $IMAGE"
+            docker pull $IMAGE
+
+            # Stop & remove old container (if exists)
+            if docker ps -q --filter "name=dev-system-app" > /dev/null; then
+              docker stop dev-system-app
+              docker rm dev-system-app
+            fi
+
+            # Run new container
+            docker run -d \
+              --name dev-system-app \
+              -p 80:3000 \
+              --restart unless-stopped \
+              $IMAGE
