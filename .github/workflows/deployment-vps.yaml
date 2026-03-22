@@ -95,4 +95,4 @@ jobs:
             docker rm dev-system-app || true
 
             echo "Running new container…"
-            docker run -d --name dev-system-app -p 80:3000 "$IMAGE"
+            docker run -d --name dev-system-app -p 80:3002 "$IMAGE"
