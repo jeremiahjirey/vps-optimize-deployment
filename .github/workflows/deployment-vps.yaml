@@ -64,7 +64,7 @@ jobs:
           push: true
           tags: |
             ${{ secrets.DOCKERHUB_USERNAME }}/dev-system-repository:latest
-            ${{ secrets.DOCKERHUB_TOKEN }}/dev-system-repository:${{ steps.version.outputs.version }}
+            ${{ secrets.DOCKERHUB_USERNAME }}/dev-system-repository:${{ steps.version.outputs.version }}
 
   # deploy:
   #   runs-on: ubuntu-latest
