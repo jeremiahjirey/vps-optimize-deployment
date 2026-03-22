@@ -1,0 +1,11 @@
+├── .env
+├── .github
+│  └── workflows
+│    └── deployment-vps.yaml
+├── .gitignore
+├── backend
+│  ├── package.json
+│  └── server.js
+├── docker
+│  └── Dockerfile
+└── docker-compose.yaml

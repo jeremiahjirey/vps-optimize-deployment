@@ -1,0 +1,10 @@
+services:
+  fastify-app:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile
+    container_name: fastify-app
+    ports:
+      - "3000:3000"
+    environment:
+      NODE_ENV: production
