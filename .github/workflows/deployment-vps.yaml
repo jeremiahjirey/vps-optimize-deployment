@@ -85,19 +85,14 @@ jobs:
           script: |
             set -eux
 
-            # Pull image with generated tag
-            IMAGE=${{ secrets.DOCKERHUB_USERNAME }}/dev-system-repository:${{ needs.build-and-push.outputs.image_tag }}
+            IMAGE=${{ secrets.DOCKERHUB_USERNAME }}/dev-system-repository:latest
 
             echo "Pulling image: $IMAGE"
             docker pull "$IMAGE"
 
-            # Stop old container (ignore errors)
+            echo "Stopping old container (if exists)…"
             docker stop dev-system-app || true
             docker rm dev-system-app || true
 
-            # Run new container
-            docker run -d \
-               --name dev-system-app \
-               -p 80:3000 \
-               --restart unless-stopped \
-               "$IMAGE"
+            echo "Running new container…"
+            docker run -d --name dev-system-app -p 80:3000 "$IMAGE"
