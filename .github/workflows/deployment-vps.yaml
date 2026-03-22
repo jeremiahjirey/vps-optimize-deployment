@@ -83,21 +83,21 @@ jobs:
           password: ${{ secrets.SSH_PASSWORD }}
           port: ${{ secrets.SSH_PORT }}
           script: |
-            TAG=${{ steps.build-and-push.outputs.version }}
-            IMAGE=${{ secrets.DOCKERHUB_USERNAME }}/dev-system-repository:$TAG
+            set -eux
 
-            echo "Pulling image $IMAGE"
-            docker pull $IMAGE
+            # Pull image with generated tag
+            IMAGE=${{ secrets.DOCKERHUB_USERNAME }}/dev-system-repository:${{ needs.build-and-push.outputs.image_tag }}
 
-            # Stop & remove old container (if exists)
-            if docker ps -q --filter "name=dev-system-app" > /dev/null; then
-              docker stop dev-system-app
-              docker rm dev-system-app
-            fi
+            echo "Pulling image: $IMAGE"
+            docker pull "$IMAGE"
+
+            # Stop old container (ignore errors)
+            docker stop dev-system-app || true
+            docker rm dev-system-app || true
 
             # Run new container
             docker run -d \
-              --name dev-system-app \
-              -p 80:3000 \
-              --restart unless-stopped \
-              $IMAGE
+               --name dev-system-app \
+               -p 80:3000 \
+               --restart unless-stopped \
+               "$IMAGE"
