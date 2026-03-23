@@ -91,8 +91,8 @@ jobs:
             docker pull "$IMAGE"
 
             echo "Stopping old container (if exists)…"
-            docker stop dev-system-app || true
-            docker rm dev-system-app || true
+            docker stop dev-app || true
+            docker rm dev-app || true
 
             echo "Running new container…"
-            docker run -d --name dev-system-app -p 80:3000 "$IMAGE"
+            docker run -d --name dev-app -p 80:3000 "$IMAGE"
