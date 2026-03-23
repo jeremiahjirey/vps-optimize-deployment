@@ -86,6 +86,8 @@ jobs:
             set -eux
 
             IMAGE=${{ secrets.DOCKERHUB_USERNAME }}/dev-system-repository:latest
+            echo "Deleting the old version image"
+            docker rmi "$IMAGE"
 
             echo "Pulling image: $IMAGE"
             docker pull "$IMAGE"
