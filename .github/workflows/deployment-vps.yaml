@@ -86,15 +86,16 @@ jobs:
             set -eux
 
             IMAGE=${{ secrets.DOCKERHUB_USERNAME }}/dev-system-repository:latest
+
+            echo "Stopping old container (if exists)…"
+            docker stop dev-app || true
+            docker rm dev-app || true
+
             echo "Deleting the old version image"
             docker rmi "$IMAGE"
 
             echo "Pulling image: $IMAGE"
             docker pull "$IMAGE"
-
-            echo "Stopping old container (if exists)…"
-            docker stop dev-app || true
-            docker rm dev-app || true
 
             echo "Running new container…"
             docker run -d --name dev-app -p 8080:3000 "$IMAGE"
