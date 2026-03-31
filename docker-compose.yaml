@@ -2,7 +2,7 @@ version: "3.8"
 
 services:
   app:
-    image: your-dockerhub-username/dev-system-repository:latest
+    image: imannueljeremi/dev-system-repository
     container_name: dev-app
     ports:
       - "8080:3000"
