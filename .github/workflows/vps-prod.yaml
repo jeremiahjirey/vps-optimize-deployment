@@ -102,13 +102,16 @@ jobs:
 
             cd /home/jeremi/app
             echo "Pull latest image"
-            docker compose pull
+            docker-compose pull
 
             echo "Recreate container"
-            docker compose up -d --force-recreate
+            docker-compose up -d --force-recreate
 
-            echo "Remove unused containers"
-            docker container prune -f
+            echo "Remove old dev-app containers only"
+            docker ps -aq --filter "name=dev-system" --filter "status=exited" | xargs -r docker rm
 
-            echo "Remove unused images"
-            docker image prune -af
+            echo "Remove unused images for this repo only"
+            docker images ${{ secrets.DOCKERHUB_USERNAME }}/dev-system-repository -q | xargs -r docker rmi -f || true
+
+            # cleanup global safe 
+            #docker image prune -f --filter "until=24h"
