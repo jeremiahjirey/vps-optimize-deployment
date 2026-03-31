@@ -1,10 +1,9 @@
+version: "3.8"
+
 services:
-  fastify-app:
-    build:
-      context: .
-      dockerfile: docker/Dockerfile
-    container_name: fastify-app
+  app:
+    image: your-dockerhub-username/dev-system-repository:latest
+    container_name: dev-app
     ports:
-      - "3000:3000"
-    environment:
-      NODE_ENV: production
+      - "8080:3000"
+    restart: unless-stopped

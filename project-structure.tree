@@ -7,10 +7,9 @@
 ├── backend
 │  ├── package-lock.json
 │  ├── package.json
-│  ├── project-structure.tree
 │  └── server.js
 ├── docker
 │  └── Dockerfile
 ├── docker-compose.yaml
-├── README.md
-└── structure.tree
+├── project-structure.tree
+└── README.md

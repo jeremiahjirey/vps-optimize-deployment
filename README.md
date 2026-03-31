@@ -107,14 +107,16 @@ CI/CD helps automate software delivery by integrating build and deployment steps
 - Automation mindset
 - Infrastructure + application integration
 - Production deployment fundamentals
-- 🤝 Contributing
 
-- Feel free to fork, improve, and experiment.
+# 🤝 Contributing
 
-- ⭐ Support
+## Feel free to fork, improve, and experiment.
 
-- If this project helps you:
-- 👉 Give it a ⭐ on GitHub
+## ⭐ Support
+
+## If this project helps you:
+
+## 👉 Give it a ⭐ on GitHub
 
 ## 👨‍💻 Imannuel Jeremi
 
