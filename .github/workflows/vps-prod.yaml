@@ -114,8 +114,9 @@ jobs:
             # docker run -d --name dev-app -p 8080:3000 "$IMAGE"
 
             cd /home/jeremi/app
-            echo "Remove old dev-app containers only"
-            docker ps -aq --filter "label=project=dev-system" --filter "status=exited" | xargs -r docker rm
+            echo "Stop running containers for this project"
+            docker ps --filter "label=project=dev-system" -q | xargs -r docker stop
+            docker ps -aq --filter "label=project=dev-system" | xargs -r docker rm
 
             echo "Remove unused images for this repo only"
             docker images ${{ secrets.DOCKERHUB_USERNAME }}/dev-system-repository -q | xargs -r docker rmi -f || true
