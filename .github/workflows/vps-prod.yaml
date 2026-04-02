@@ -114,17 +114,17 @@ jobs:
             # docker run -d --name dev-app -p 8080:3000 "$IMAGE"
 
             cd /home/jeremi/app
-            echo "Pull latest image"
-            docker-compose pull
-
-            echo "Recreate container"
-            docker-compose up -d --force-recreate
-
             echo "Remove old dev-app containers only"
             docker ps -aq --filter "label=project=dev-system" --filter "status=exited" | xargs -r docker rm
 
             echo "Remove unused images for this repo only"
             docker images ${{ secrets.DOCKERHUB_USERNAME }}/dev-system-repository -q | xargs -r docker rmi -f || true
+
+            echo "Pull latest image"
+            docker-compose pull
+
+            echo "Recreate container"
+            docker-compose up -d --force-recreate
 
             # cleanup global safe 
             #docker image prune -f --filter "until=24h"
