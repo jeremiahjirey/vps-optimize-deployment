@@ -1,0 +1,11 @@
+version: "3.8"
+
+services:
+  app:
+    image: imannueljeremi/dev-system-repository
+    container_name: dev-app
+    ports:
+      - "8080:3000"
+    restart: unless-stopped
+    labels:
+      - "project=dev-system"
