@@ -1,4 +1,4 @@
-name: Deployment Flow
+name: Dev Deployment Workflow
 
 on:
   # pull_request

@@ -1,4 +1,4 @@
-name: Deployment Flow
+name: Prod Deployment Flow
 
 on:
   pull_request
